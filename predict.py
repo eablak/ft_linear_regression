@@ -1,0 +1,1 @@
+# estimateP rice(mileage) = θ0 + (θ1 ∗ mileage)
