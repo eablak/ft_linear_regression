@@ -50,19 +50,44 @@ def save_into_file(theta0, theta1):
         f.write(str(theta0) + "\n" + str(theta1))
 
 
+def get_ypred(theta0, theta1, X):
+
+    y_pred = []
+    for x in X:
+        y_pred.append(theta0 + theta1 * x)
+    
+    return y_pred
+
+
+
+def visualization(X, y, y_pred):
+
+    plt.figure(figsize=(8,6))
+    plt.scatter(X, y, color='blue', label='Data Points')
+    plt.plot(X, y_pred, color='red', linewidth=2, label='Regression Line')
+    plt.title('Linear Regression on Dataset')
+    plt.xlabel('Km')
+    plt.ylabel('Price')
+    plt.legend()
+    plt.show()
+
+
 
 if __name__ == "__main__":
 
     theta0 = 0
     theta1 = 0
-    learning_rate = 0.001
+    learning_rate = 0.005
     epochs = 10000
 
     dataset = get_dataset()
     normalized_dataset = normalize_dataset(dataset)
     X = normalized_dataset.iloc[:, 0].values
-    y = dataset.iloc[:, 1].values
+    y = normalized_dataset.iloc[:, 1].values
 
     normalized_theta0, normalized_theta1 = train_model(theta0, theta1, learning_rate, epochs, X, y)
     theta0, theta1 = denormalize_theta(normalized_theta0, normalized_theta1, dataset)
     save_into_file(theta0, theta1)
+
+    y_pred = get_ypred(theta0, theta1, dataset['km'])
+    visualization(dataset['km'], dataset['price'], y_pred)
