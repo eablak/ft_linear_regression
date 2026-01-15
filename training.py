@@ -39,8 +39,12 @@ def train_model(theta0, theta1, learning_rate, epochs, X, y):
 
 
 def denormalize_theta(normalized_theta0, normalized_theta1, dataset):
-    theta1 = normalized_theta1 / (dataset['km'].max() - dataset['km'].min())
-    theta0 = normalized_theta0 - (theta1 * dataset['km'].min())
+
+    x_maxs = dataset['km'].max()
+    x_min = dataset['km'].min()
+
+    theta1 = normalized_theta1 / (x_maxs - x_min)
+    theta0 = normalized_theta0 - ((normalized_theta1 * x_min) / (x_maxs - x_min))
 
     return theta0, theta1
 
